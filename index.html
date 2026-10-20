@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chúc mừng ngày 20/10 - Khu Vườn Yêu Thương</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;1,400&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            /* Phông nền Khu Vườn Hoa Rực Rỡ */
+            background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
+                        url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            position: relative;
+            padding: 15px;
+        }
+
+        /* Canvas hiệu ứng cánh hoa rơi */
+        #petalCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Lời chúc bay xung quanh */
+        .floating-wish {
+            position: absolute;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.1rem, 4.5vw, 1.7rem);
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+            pointer-events: none;
+            animation: floatUp 8s infinite linear;
+            z-index: 2;
+            white-space: nowrap;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) scale(0.8);
+                opacity: 0;
+            }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% {
+                transform: translateY(-10vh) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* Khung chứa thiệp tối ưu cho điện thoại */
+        .card-wrapper {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        /* Phong bì thư kính mờ sang trọng */
+        .envelope {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 35px 22px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.4s ease;
+        }
+
+        .envelope h1 {
+            font-family: 'Playfair Display', serif;
+            color: #d63384;
+            font-size: clamp(1.6rem, 6vw, 2.2rem);
+            margin-bottom: 12px;
+        }
+
+        .envelope p {
+            color: #444;
+            margin-bottom: 22px;
+            font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+            line-height: 1.5;
+        }
+
+        .heart-icon {
+            font-size: clamp(45px, 12vw, 60px);
+            color: #e63946;
+            animation: beat 1.2s infinite ease-in-out;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .btn-open {
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: clamp(0.95rem, 4vw, 1.1rem);
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(255, 77, 109, 0.4);
+            width: 80%;
+            max-width: 250px;
+        }
+
+        /* Nội dung bức thư */
+        .letter-container {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px 22px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+            text-align: left;
+            animation: openLetter 0.6s ease-out forwards;
+            border-top: 5px solid #ff4d6d;
+        }
+
+        @keyframes openLetter {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .letter-container h2 {
+            font-family: 'Playfair Display', serif;
+            color: #d63384;
+            text-align: center;
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+            margin-bottom: 15px;
+        }
+
+        .letter-body {
+            font-size: clamp(0.9rem, 3.6vw, 1rem);
+            line-height: 1.7;
+            color: #333;
+            max-height: 55vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .letter-body p {
+            margin-bottom: 12px;
+        }
+
+        .signature {
+            text-align: right;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
+            color: #d63384;
+            margin-top: 15px;
+        }
+
+        .btn-close {
+            display: block;
+            margin: 20px auto 0 auto;
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="petalCanvas"></canvas>
+    <div id="wishesContainer"></div>
+
+    <div class="card-wrapper">
+        <!-- Phong bì -->
+        <div class="envelope" id="envelope" onclick="openLetter()">
+            <div class="heart-icon">💖</div>
+            <h1>Happy 20/10</h1>
+            <p>Có một bức thư đặc biệt dành riêng cho bạn giữa khu vườn hoa hôm nay...</p>
+            <button class="btn-open">Mở Thư Ngay 💌</button>
+        </div>
+
+        <!-- Bức thư -->
+        <div class="letter-container" id="letterContainer">
+            <h2>Gửi Chị Em ✨</h2>
+            <div class="letter-body">
+                <p>Nhân ngày Phụ nữ Việt Nam 20/10, chúc bạn luôn tươi trẻ, tự tin, tràn ngập niềm vui và ngát hương như những bông hoa trong khu vườn xinh đẹp này!</p>
+                <p>Cảm ơn bạn vì đã luôn mang lại sự ấm áp và những điều tốt đẹp nhất. Mong rằng mọi ước mơ và dự định của bạn đều sẽ đơm hoa kết trái!</p>
+                <p>Chúc bạn có một ngày lễ thật ý nghĩa và tràn ngập tình yêu thương! 🌸 🌻 🌹</p>
+            </div>
+            <div class="signature">10a3k61</div>
+            <button class="btn-close" onclick="closeLetter()">Đóng thư lại</button>
+        </div>
+    </div>
+
+    <script>
+        function openLetter() {
+            document.getElementById('envelope').style.display = 'none';
+            document.getElementById('letterContainer').style.display = 'block';
+        }
+
+        function closeLetter() {
+            document.getElementById('letterContainer').style.display = 'none';
+            document.getElementById('envelope').style.display = 'block';
+        }
+
+        // Những lời chúc bay lơ lửng
+        const wishes = [
+            "🌸 Chúc mừng 20/10!",
+            "✨ Rạng rỡ như hoa xuân",
+            "💖 Hạnh phúc ngập tràn",
+            "🌷 Luôn luôn vui vẻ",
+            "🌹 Success & Happiness",
+            "🌻 Luôn tỏa sáng nhé!"
+        ];
+
+        function createFloatingWish() {
+            const container = document.getElementById('wishesContainer');
+            const wishEl = document.createElement('div');
+            wishEl.classList.add('floating-wish');
+            wishEl.innerText = wishes[Math.floor(Math.random() * wishes.length)];
+            wishEl.style.left = Math.random() * 75 + 5 + 'vw';
+            
+            const duration = Math.random() * 3 + 6;
+            wishEl.style.animationDuration = duration + 's';
+
+            container.appendChild(wishEl);
+            setTimeout(() => { wishEl.remove(); }, duration * 1000);
+        }
+
+        setInterval(createFloatingWish, 1400);
+
+        // Hiệu ứng cánh hoa to rơi lơ lửng
+        const canvas = document.getElementById('petalCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const petals = [];
+        const totalPetals = 28;
+
+        class Petal {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * -height;
+                // Kích thước cánh hoa to nổi bật (15px - 28px)
+                this.size = Math.random() * 13 + 15; 
+                this.speedY = Math.random() * 1.2 + 0.8;
+                this.speedX = Math.random() * 1.4 - 0.7;
+                this.angle = Math.random() * 360;
+                this.spin = Math.random() * 0.02 - 0.01;
+                this.color = ['#ffccd5', '#ffb3c6', '#ff8fa3', '#fff0f3', '#ffffff'][Math.floor(Math.random() * 5)];
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.angle += this.spin;
+
+                if (this.y > height + 30) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.ellipse(0, 0, this.size, this.size / 1.8, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < totalPetals; i++) {
+            petals.push(new Petal());
+        }
+
+        function animatePetals() {
+            ctx.clearRect(0, 0, width, height);
+            petals.forEach(petal => {
+                petal.update();
+                petal.draw();
+            });
+            requestAnimationFrame(animatePetals);
+        }
+
+        animatePetals();
+    </script>
+</body>
+</html>
